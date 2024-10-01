@@ -36,7 +36,7 @@ Find created assets like images in *assets* directories.
 ## Replication Instructions
 
 ### Required Packages
-For *nanoGpt*: follow the instructions on the repo there. The `knn_attention.py` file contains all the logic for KNN Attention, which is incorporated in the `model.py` and `train.py` files. 
+For *nanoGpt*: follow the instructions on the repo [here](https://github.com/karpathy/nanoGPT/tree/master). The `knn_attention.py` file contains all the logic for KNN Attention, which is incorporated in the `model.py` and `train.py` files. 
 
 For *everything else*: ensure you have `torch` installed. The code and experiments run on a CPU, and they use META's `faiss` package for KNN indexing, for which the documentation can be found [here](https://faiss.ai/). If you want to scale these experiments to run on a GPU, you'll have to install the `faiss-gpu` package.
 

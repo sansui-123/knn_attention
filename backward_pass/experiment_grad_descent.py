@@ -10,13 +10,16 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import torch.nn.functional as F
 
+import time
+
 mpl.rcParams['figure.dpi']= 300
 
 # Embedding dimension
 d = 3
 
-# Input sequence length
-N = 100
+# Input sequence length. The larger it is, the more prominent the performance difference between
+# naive attention gradient computation and the large attention gradients.
+N = 20000
 
 lr = 0.5
 
@@ -39,7 +42,7 @@ target_weights = torch.randn(d, 1)
 # We'll compare the descent with the gradients calculated using our method, vs
 # the gradients calculated using the naive method.
 iteration = 0
-num_iterations = 1500
+num_iterations = 10 # Adjust as needed with N and lr.
 losses_fast = []
 losses = []
 while iteration != num_iterations:
@@ -66,12 +69,24 @@ while iteration != num_iterations:
     losses_fast.append(loss_fast.item())
     losses.append(loss.item())
 
+    # Measure time to compute attention gradients.
+    start = time.time()
+
     # Calculate the gradients of the loss 
     loss.backward(retain_graph=True)
     loss_fast.backward(retain_graph=True)
 
+    end = time.time()
+    print(f"Time taken for attention gradients: {end - start}")
+
+    # Measure time to compute the approximation.
+    start = time.time()
+
     # Approximate the gradient with respect to V:
-    dV_fast = fast_grad_V(Q_copy_fast, K_copy_fast, V_copy_fast, O_fast.grad, epsilon=0.05)
+    dV_fast = fast_grad_V(Q_copy_fast, K_copy_fast, V_copy_fast, O_fast.grad, epsilon=0.1)
+
+    end = time.time()
+    print(f"Time taken for fast grad V: {end - start}")
 
     # Print the mean absolute error:
     # print(f"dV: Mean absolute error: {torch.mean(torch.abs(dV_fast - V.grad)).item()}")
@@ -104,4 +119,5 @@ plt.xlabel('Iteration')
 plt.ylabel('Loss')
 plt.title(r'Loss: Cross Entropy')
 
-plt.savefig('backward_pass/assets/experiment_cross_entropy.png')
+# plt.savefig('backward_pass/assets/experiment_cross_entropy.png')
+plt.show()

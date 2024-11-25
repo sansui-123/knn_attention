@@ -31,9 +31,9 @@ h = 10
 n, d = 1000, 64
 
 # Range k.
-kk = [int(n ** 0.5), int(n ** 0.25), int(n ** 0.125), int(math.log(n)), 3]
+kk = [int(n ** 0.5), int(n ** 0.25), int(n ** 0.2), int(math.log(n)), 3]
 kk = sorted(list(set(kk)))
-kk_labels = [r"3", r"$\log(n)$", r"$n^{1/8}$", r"$n^{1/4}$", r"$n^{1/2}$"]
+kk_labels = [r"3", r"$\log(n)$", r"$n^{1/5}$", r"$n^{1/4}$", r"$n^{1/2}$"]
 if len(kk_labels) != len(kk):
     print(kk)
     print(kk_labels)
@@ -109,4 +109,7 @@ axs.set_xlabel("$k$")
 axs.set_title("$k$NN Attention Error")
 axs.legend()
 
-plt.savefig('forward_pass/assets/forward_pass_test_batched.png')
+plt.show()
+
+# Uncomment to save file.
+# plt.savefig('forward_pass/assets/forward_pass_test_batched.png')

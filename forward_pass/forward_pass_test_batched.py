@@ -28,7 +28,7 @@ def run_experiment(Q, K, V, k=2):
 torch.manual_seed(0)
 b = 1
 h = 10
-n, d = 1000, 64
+n, d = 13000, 64
 
 # Range k.
 kk = [int(n ** 0.5), int(n ** 0.25), int(n ** 0.2), int(math.log(n)), 3]
@@ -110,6 +110,4 @@ axs.set_title("$k$NN Attention Error")
 axs.legend()
 
 plt.show()
-
-# Uncomment to save file.
 # plt.savefig('forward_pass/assets/forward_pass_test_batched.png')
